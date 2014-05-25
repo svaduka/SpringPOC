@@ -147,5 +147,8 @@ public interface IDFConstants {
 		public static final String FIELD_VERSION_NUMBER="VERSION_NUMBER";
 		
 	}
+	
+	//Calculation Constants
+	public static final String PROP_KEY_VAL_SEPARATOR="=";
 
 }
