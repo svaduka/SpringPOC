@@ -147,5 +147,14 @@ public interface IDFConstants {
 		public static final String FIELD_VERSION_NUMBER="VERSION_NUMBER";
 		
 	}
+	
+	//Calculation Constants
+	public static final String PROP_KEY_VAL_SEPARATOR="=";
+	
+	interface IConfParameters{
+		public static final String PROP_EXPRESSION_COL_JSON="JSON_EXPRESSION_COLUMN_IDENTIFIER";
+		public static final String PROP_KEY_LEVEL_JSON = "JSON_EXPRESSION_AVAILABLE_LEVELS";
+		public static final String KEY_ALL_MEDIATION_SCHEMA = "MEDIATION_SCHEMA";
+	}
 
 }
