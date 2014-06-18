@@ -1,5 +1,6 @@
 package com.otsi.util;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,6 +17,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -404,7 +407,63 @@ public List<String> getFilesWithInDir(final String dir)
 	return files;
 }
 
+public boolean writeAvroSchemaFiles(Schema oSchema, final String avroSchemaLocation)
+{
+	FSDataOutputStream out =null;
+	try {
+		FileSystem fs = FileSystem.get(this.conf);
+		final String tableName=oSchema.getName();
+		Path outFile = new Path(avroSchemaLocation+"/"+tableName+".avsc");
+		if (fs.exists(outFile))
+		{
+			  System.out.println("Output already exists");
+			  return Boolean.FALSE;
+		}
+		
+		out= fs.create(outFile);
+		out.writeChars(oSchema.toString());
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}finally{
+		if(out!=null)
+		{
+			try {
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			out=null;
+		}
+	}
+	
+	return Boolean.TRUE;
+}
 
+public Map<String, String> readAvroSchemaFiles(final String avrsoSchemaLocation)
+{
+	
+	Path rootDirectory=new Path(avrsoSchemaLocation); //Path representation of HDFS files
+	FileSystem rootFileSystem;
+	Map<String, String> completeAvroSchemaFiles=new HashMap<String, String>();
+	try 
+	{
+		rootFileSystem = FileSystem.get(this.conf); //getting HDFS filesystem data
+		FileStatus[] status=rootFileSystem.listStatus(rootDirectory); //Listing the files in the filesystem for a given path
+		for (FileStatus fileStatus : status) //Iterating to get the directories 
+		{ 
+		final String name=	fileStatus.getPath().getName();
+		String content=getContentFromHDFSURL(fileStatus.getPath().toString(), Boolean.FALSE);
+		completeAvroSchemaFiles.put(name, content);
+		}
+		
+	}catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+	
+	return completeAvroSchemaFiles;
+}
 public static void main(String[] args) {
 	HDFSUtil oHDFSUtil=HDFSUtil.getHDFSUtil(new Configuration());
 	Map<String, List<Schema>> files=oHDFSUtil.getLocalFilesMetaData("/home/cloudera/SAIWS/OTSIWS/05222014/poclatestcode/Schema");

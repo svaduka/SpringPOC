@@ -147,5 +147,27 @@ public interface IDFConstants {
 		public static final String FIELD_VERSION_NUMBER="VERSION_NUMBER";
 		
 	}
+	
+	//Calculation Constants
+	public static final String PROP_KEY_VAL_SEPARATOR="=";
+	public static final String FILENMAE_OUPUT_VALUE_SEPARATOR = "\t";
+	public static final String VALUE_SEPERATOR = "$";
+	
+	interface IConfParameters{
+		public static final String PROP_EXPRESSION_COL_JSON="JSON_EXPRESSION_COLUMN_IDENTIFIER";
+		public static final String PROP_KEY_LEVEL_JSON = "JSON_EXPRESSION_AVAILABLE_LEVELS";
+		public static final String KEY_ALL_MEDIATION_SCHEMA = "MEDIATION_SCHEMA";
+	}
+	
+	interface IMediationFileNames{
+		public static final String CNUM_QCI_FILENAME="cNum_QCI";
+		public static final String CNUM_ESTABCAUSE_QCI_FILENAME="cNum_EstabCause_QCI";
+		public static final String CNUM_DL_LAYER_CODEWORD_FILENAME="cNum_DL_Layer_codeword";
+		public static final String CNUM_FILENAME="cNum";
+		
+		public static final String CNUM_ESTABCAUSE_FILENAME="cNum_EstabCause";
+		public static final String CNUM_TARGETEARFCNDL_FILENAME="cNum_TargetEarfcnDl";
+		public static final String CNUM_TCID_HOCAUSE_FILENAME="cNum_tcID_HoCause";
+	}
 
 }
